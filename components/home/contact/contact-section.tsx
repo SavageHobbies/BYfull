@@ -9,16 +9,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useChat } from '@/hooks/use-chat';
+import { generateChatResponse } from '@/lib/gemini';
 
 export default function ContactSection() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState<Array<{ type: 'user' | 'bot'; content: string }>>([
-    { type: 'bot', content: 'Hello! How can I help you today?' }
+    { type: 'bot', content: "Hi! I'm MAX, BY1's AI consultant. I'd be happy to tell you about our AI and automation solutions, or help you calculate potential cost savings for your business. How can I assist you today?" }
   ]);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const { openChat } = useChat();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     toast({
       title: "Message sent!",
@@ -26,10 +30,59 @@ export default function ContactSection() {
     });
   };
 
-  const handleChatSubmit = () => {
-    if (!message.trim()) return;
-    openChat();
-    setMessage('');
+  const handleChatSubmit = async () => {
+    if (!message.trim() || isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      // Add user message to chat
+      const newUserMessage = { type: 'user' as const, content: message.trim() };
+      setChatMessages(prev => [...prev, newUserMessage]);
+      setMessage('');
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: chatMessages.concat(newUserMessage).map(msg => ({
+            role: msg.type === 'user' ? 'user' : 'assistant',
+            content: msg.content
+          }))
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        let errorMessage = 'Failed to get response';
+        
+        try {
+          const errorJson = JSON.parse(errorText);
+          errorMessage = errorJson.message || errorMessage;
+        } catch (e) {
+          console.error('Error parsing error response:', errorText);
+        }
+        
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      
+      if (data.success) {
+        setChatMessages(prev => [...prev, { type: 'bot', content: data.message }]);
+      } else {
+        throw new Error(data.message || 'Failed to get response');
+      }
+    } catch (error: any) {
+      console.error('Chat error:', error);
+      toast({
+        title: "Chat Error",
+        description: error.message || "I'm having trouble connecting right now. Please try again in a moment.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -54,108 +107,106 @@ export default function ContactSection() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
           >
-            <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/10">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                    <Input
-                      placeholder="Your Name"
-                      className="pl-10"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                    <Input
-                      type="email"
-                      placeholder="Email Address"
-                      className="pl-10"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="relative">
-                    <Building className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                    <Input
-                      placeholder="Company Name"
-                      className="pl-10"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Textarea
-                    placeholder="How can we help?"
-                    className="min-h-[100px]"
-                    required
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-secondary hover:bg-secondary-dark"
-                >
-                  Send Message
-                </Button>
-              </form>
-            </Card>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="relative">
+                <Input
+                  placeholder="Your Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10"
+                />
+                <User className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              </div>
+              <div className="relative">
+                <Input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10"
+                />
+                <Mail className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              </div>
+              <div className="relative">
+                <Input
+                  placeholder="Company Name"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  className="pl-10"
+                />
+                <Building className="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              </div>
+              <Textarea
+                placeholder="How can we help?"
+                className="min-h-[150px]"
+              />
+              <Button type="submit" className="w-full bg-[#512BD4] hover:bg-[#512BD4]/80 text-white">Send Message</Button>
+            </form>
           </motion.div>
 
-          {/* Chat Interface */}
+          {/* Chat Section */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
           >
-            <Card className="p-6 bg-white/10 backdrop-blur-lg border-white/10 h-full flex flex-col">
+            <Card className="p-4 h-full bg-slate-800/50 border-slate-700">
               <div className="flex items-center gap-2 mb-4">
-                <MessageSquare className="h-5 w-5 text-secondary" />
-                <h3 className="text-lg font-semibold text-white">AI Assistant</h3>
+                <MessageSquare className="w-5 h-5 text-accent" />
+                <h3 className="text-lg font-semibold text-white">MAX the AI Assistant</h3>
               </div>
-              
-              <div className="flex-grow overflow-y-auto space-y-4 mb-4">
+              <div className="space-y-4 h-[300px] overflow-y-auto mb-4">
                 {chatMessages.map((msg, index) => (
                   <div
                     key={index}
-                    className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                    className={`flex ${
+                      msg.type === 'user' ? 'justify-end' : 'justify-start'
+                    }`}
                   >
                     <div
                       className={`max-w-[80%] p-3 rounded-lg ${
                         msg.type === 'user'
-                          ? 'bg-secondary text-white'
-                          : 'bg-slate-700 text-slate-200'
+                          ? 'bg-accent text-white'
+                          : 'bg-slate-700 text-white'
                       }`}
                     >
                       {msg.content}
                     </div>
                   </div>
                 ))}
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-slate-700 p-3 rounded-lg">
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-100"></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce delay-200"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-
               <div className="flex gap-2">
                 <Input
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-grow"
                   onKeyPress={(e) => e.key === 'Enter' && handleChatSubmit()}
+                  disabled={isLoading}
                 />
                 <Button
                   onClick={handleChatSubmit}
-                  className="bg-secondary hover:bg-secondary-dark"
+                  disabled={isLoading}
+                  size="icon"
                 >
-                  <Send className="h-5 w-5" />
+                  <Send className="w-4 h-4" />
                 </Button>
               </div>
             </Card>
