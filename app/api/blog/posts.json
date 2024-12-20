@@ -1,0 +1,58 @@
+{
+  "posts": [
+    {
+      "slug": "ai-governance-analysing-emerging-global-regulations",
+      "title": "AI governance: Analysing emerging global regulations",
+      "date": "2024-12-19T16:21:18.000Z",
+      "excerpt": "Governments are scrambling to establish regulations to govern AI, citing numerous concerns over data privacy, bias, safety, and more. As AI technology continues to advance at a rapid pace, policymakers worldwide are working to create frameworks that ensure responsible development and deployment while fostering innovation.",
+      "source": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/news/ai-governance-analysing-emerging-global-regulations/",
+      "categories": ["AI & Technology", "Regulation"]
+    },
+    {
+      "slug": "hugging-face-shows-how-test-time-scaling-helps-small-language-models",
+      "title": "Hugging Face shows how test-time scaling helps small language models punch above their weight",
+      "date": "2024-12-19T15:30:00.000Z",
+      "excerpt": "Hugging Face researchers demonstrate how test-time scaling can improve the performance of smaller language models, making them more competitive with larger models while requiring fewer computational resources. This breakthrough could make AI more accessible and environmentally friendly.",
+      "source": "VentureBeat",
+      "sourceUrl": "https://venturebeat.com/ai/hugging-face-shows-how-test-time-scaling-helps-small-language-models/",
+      "categories": ["AI & Technology", "Research"]
+    },
+    {
+      "slug": "amazon-stakes-4bn-more-in-anthropic",
+      "title": "Amazon stakes $4bn more in Anthropic – the next tech arms race",
+      "date": "2024-12-19T14:00:00.000Z",
+      "excerpt": "Amazon has announced a significant $4 billion investment in Anthropic, marking another major move in the ongoing AI technology race. This strategic partnership aims to advance AI development while ensuring responsible innovation.",
+      "source": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/2024/12/19/amazon-anthropic-investment-ai-race/",
+      "categories": ["AI & Technology", "Business"]
+    },
+    {
+      "slug": "crowdstrike-cybersecurity-pros-want-safer-specialist-genai-tools",
+      "title": "CrowdStrike: Cybersecurity pros want safer, specialist GenAI tools",
+      "date": "2024-12-19T13:15:00.000Z",
+      "excerpt": "A new report from CrowdStrike reveals that cybersecurity professionals are seeking more specialized and secure generative AI tools for their work. The study highlights the growing importance of AI in cybersecurity while emphasizing the need for trustworthy solutions.",
+      "source": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/2024/12/19/crowdstrike-cybersecurity-genai-tools/",
+      "categories": ["AI & Technology", "Cybersecurity"]
+    },
+    {
+      "slug": "how-large-language-models-are-unveiling-the-mystery-of-blackbox-ai",
+      "title": "How Large Language Models are unveiling the mystery of 'blackbox' AI",
+      "date": "2024-12-19T12:30:00.000Z",
+      "excerpt": "Recent breakthroughs in AI research are shedding light on the inner workings of large language models, challenging the notion of AI as a 'black box'. Scientists are developing new techniques to understand and interpret these complex systems.",
+      "source": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/2024/12/19/llms-unveiling-blackbox-ai/",
+      "categories": ["AI & Technology", "Research"]
+    },
+    {
+      "slug": "hunyuan-large-and-the-moe-revolution",
+      "title": "Hunyuan Large and the MoE Revolution: How AI Models are Growing Smarter and Faster",
+      "date": "2024-12-19T11:45:00.000Z",
+      "excerpt": "The introduction of Hunyuan Large and advances in Mixture of Experts (MoE) architecture are revolutionizing how AI models are built and deployed. These innovations promise more efficient and powerful AI systems while reducing computational requirements.",
+      "source": "AI News",
+      "sourceUrl": "https://www.artificialintelligence-news.com/2024/12/19/hunyuan-moe-revolution/",
+      "categories": ["AI & Technology", "Innovation"]
+    }
+  ]
+}

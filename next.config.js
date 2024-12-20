@@ -1,15 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     unoptimized: true,
   },
   env: {
-    NEXT_PUBLIC_STATIC_ENV: 'true'
+    NEXT_PUBLIC_STATIC_ENV: 'false'
   }
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
