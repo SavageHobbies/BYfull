@@ -51,32 +51,34 @@ export default function AIEmployeePage() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white/5 backdrop-blur-sm rounded-lg p-6 hover:bg-white/10 transition-all duration-300"
             >
-              <div className="flex items-center mb-4">
-                <feature.icon className="h-8 w-8 text-secondary mr-3" />
-                <h3 className="text-xl font-semibold">{feature.title}</h3>
-              </div>
-              <p className="text-slate-300 mb-6">{feature.description}</p>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-medium mb-2 text-secondary">Key Features</h4>
-                  <ul className="space-y-2">
-                    {feature.features.slice(0, 3).map((item, i) => (
-                      <li key={i} className="flex items-start text-sm text-slate-400">
-                        <CheckCircle2 className="h-4 w-4 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+              <div className="flex flex-col h-full">
+                <div className="flex items-center mb-4">
+                  <feature.icon className="h-8 w-8 text-secondary mr-3" />
+                  <h3 className="text-xl font-semibold">{feature.title}</h3>
                 </div>
+                <p className="text-slate-300 mb-6">{feature.description}</p>
+                <div className="space-y-4 flex-grow">
+                  <div>
+                    <h4 className="font-medium mb-2 text-secondary">Key Features</h4>
+                    <ul className="space-y-2">
+                      {feature.features.slice(0, 3).map((item, i) => (
+                        <li key={i} className="flex items-start text-sm text-slate-400">
+                          <CheckCircle2 className="h-4 w-4 text-secondary mr-2 mt-0.5 flex-shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <Link href={`/ai-employee/${feature.id}`} className="block mt-6">
+                  <Button
+                    className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
+                  >
+                    Learn More
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
-              <Link href={`/ai-employee/${feature.id}`}>
-                <Button
-                  className="w-full mt-6 bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
-                >
-                  Learn More
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
             </motion.div>
           ))}
         </div>
