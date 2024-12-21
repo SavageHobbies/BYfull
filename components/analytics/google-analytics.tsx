@@ -1,5 +1,7 @@
+/** @jsxImportSource react */
 'use client';
 
+import * as React from 'react';
 import Script from 'next/script';
 
 export default function GoogleAnalytics({ measurementId }: { measurementId: string }) {

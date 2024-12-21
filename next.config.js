@@ -6,6 +6,13 @@ const nextConfig = {
   },
   env: {
     NEXT_PUBLIC_STATIC_ENV: 'false'
+  },
+  compiler: {
+    styledComponents: true,
+    emotion: true
+  },
+  experimental: {
+    serverActions: true,
   }
 }
 

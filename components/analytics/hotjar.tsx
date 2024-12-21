@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 'use client';
 
 import Script from 'next/script';
