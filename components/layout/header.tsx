@@ -23,6 +23,7 @@ const Header = () => {
   const navItems = [
     { label: 'ROI Calculator', href: '/roi-calculator' },
     { label: 'Services', href: '/services' },
+    { label: 'Pricing', href: '/pricing' },
     { label: 'Case Studies', href: '/case-studies' },
     { label: 'About', href: '/about' },
     { label: 'Blog', href: '/blog' },
