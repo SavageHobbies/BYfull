@@ -1,0 +1,14 @@
+# https://by1.net/robots.txt
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://by1.net/sitemap.xml
+
+# Optimize crawling
+Crawl-delay: 10
+
+# Prevent crawling of specific paths
+Disallow: /api/
+Disallow: /admin/
+Disallow: /private/

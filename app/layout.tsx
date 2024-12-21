@@ -9,8 +9,46 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'BY1.net - AI & Automation Consulting',
-  description: 'Transform your business through AI and automation solutions. Expert consulting for digital evolution.',
+  title: 'BY1.net - Leading AI & Automation Solutions | Transform Your Business',
+  description: 'Transform your business with BY1.net\'s enterprise AI and automation solutions. Reduce costs by 60%, achieve 3s response times, and join the 95% satisfied clients. Expert consulting for digital evolution.',
+  keywords: 'AI solutions, business automation, digital transformation, RPA, machine learning, process optimization, enterprise AI, ROI optimization, workflow automation',
+  authors: [{ name: 'BY1.net' }],
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://by1.net',
+    siteName: 'BY1.net',
+    title: 'BY1.net - Enterprise AI & Automation Solutions',
+    description: 'Transform your business with cutting-edge AI and automation solutions. 60% cost reduction, 3s response times, 95% client satisfaction.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'BY1.net - AI & Automation Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BY1.net - Enterprise AI & Automation Solutions',
+    description: 'Transform your business with cutting-edge AI and automation. 60% cost reduction, 3s response times.',
+    images: ['/twitter-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
 };
 
 export default function RootLayout({
@@ -20,12 +58,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head />
       <body className={inter.className} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
+          suppressHydrationWarning
         >
           <Header />
           <main>{children}</main>
