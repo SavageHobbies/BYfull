@@ -22,7 +22,8 @@ export default function NeuralNetwork() {
 
     const nodes: Node[] = [];
     const nodeCount = 40;
-    const connectionDistance = 150;
+    const connectionDistance = 140;
+    const margin = 20;
     let animationFrameId: number;
 
     const resizeCanvas = () => {
@@ -71,14 +72,14 @@ export default function NeuralNetwork() {
         node.x += node.vx;
         node.y += node.vy;
 
-        // Bounce off edges with damping
-        if (node.x <= 0 || node.x >= canvas.width) {
-          node.vx *= -0.9;
-          node.x = Math.max(0, Math.min(canvas.width, node.x));
+        // Bounce off edges with margin and improved damping
+        if (node.x <= margin || node.x >= canvas.width - margin) {
+          node.vx *= -0.8;
+          node.x = Math.max(margin, Math.min(canvas.width - margin, node.x));
         }
-        if (node.y <= 0 || node.y >= canvas.height) {
-          node.vy *= -0.9;
-          node.y = Math.max(0, Math.min(canvas.height, node.y));
+        if (node.y <= margin || node.y >= canvas.height - margin) {
+          node.vy *= -0.8;
+          node.y = Math.max(margin, Math.min(canvas.height - margin, node.y));
         }
 
         // Draw connections
@@ -92,7 +93,7 @@ export default function NeuralNetwork() {
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(otherNode.x, otherNode.y);
             const opacity = 1 - (distance / connectionDistance);
-            ctx.strokeStyle = `rgba(0, 166, 251, ${opacity * 0.4})`;
+            ctx.strokeStyle = `rgba(0, 166, 251, ${opacity * 0.3})`;
             ctx.stroke();
           }
         });
@@ -129,7 +130,7 @@ export default function NeuralNetwork() {
       ref={canvasRef}
       className="w-full h-full"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 0.7 }}
+      animate={{ opacity: 0.8 }}
       transition={{ duration: 1 }}
     />
   );
