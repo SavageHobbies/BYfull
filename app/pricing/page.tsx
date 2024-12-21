@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { motion } from 'framer-motion';
 import { PricingSection } from '@/components/pricing/pricing-section';
 import { Button } from '@/components/ui/button';

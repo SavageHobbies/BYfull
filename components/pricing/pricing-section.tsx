@@ -1,11 +1,11 @@
 'use client';
 
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { pricingTiers, servicePackages, customServices } from '@/data/pricing';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight, Check, Package, Sparkles } from 'lucide-react';
-import { useState } from 'react';
 
 export function PricingSection() {
   const [selectedTab, setSelectedTab] = useState<'packages' | 'custom'>('packages');
