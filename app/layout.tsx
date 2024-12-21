@@ -2,9 +2,13 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { Toaster } from '@/components/ui/toaster';
+import GoogleAnalytics from '@/components/analytics/google-analytics';
+import Hotjar from '@/components/analytics/hotjar';
+import CrispChat from '@/components/chat/crisp';
+import ExitIntentPopup from '@/components/marketing/exit-intent-popup';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -71,6 +75,19 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <Toaster />
+          <ExitIntentPopup />
+          {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+            <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+          )}
+          {process.env.NEXT_PUBLIC_HOTJAR_ID && process.env.NEXT_PUBLIC_HOTJAR_VERSION && (
+            <Hotjar 
+              hjid={process.env.NEXT_PUBLIC_HOTJAR_ID} 
+              hjsv={process.env.NEXT_PUBLIC_HOTJAR_VERSION} 
+            />
+          )}
+          {process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID && (
+            <CrispChat websiteId={process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID} />
+          )}
         </ThemeProvider>
       </body>
     </html>
