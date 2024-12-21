@@ -49,15 +49,15 @@ export default function AIEmployeePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-white/5 backdrop-blur-sm rounded-lg p-6 hover:bg-white/10 transition-all duration-300"
+              className="bg-white/5 backdrop-blur-sm rounded-lg p-6 hover:bg-white/10 transition-all duration-300 flex flex-col min-h-[400px]"
             >
-              <div className="flex flex-col h-full">
+              <div className="flex-1">
                 <div className="flex items-center mb-4">
                   <feature.icon className="h-8 w-8 text-secondary mr-3" />
                   <h3 className="text-xl font-semibold">{feature.title}</h3>
                 </div>
                 <p className="text-slate-300 mb-6">{feature.description}</p>
-                <div className="space-y-4 flex-grow">
+                <div className="space-y-4">
                   <div>
                     <h4 className="font-medium mb-2 text-secondary">Key Features</h4>
                     <ul className="space-y-2">
@@ -70,7 +70,9 @@ export default function AIEmployeePage() {
                     </ul>
                   </div>
                 </div>
-                <Link href={`/ai-employee/${feature.id}`} className="block mt-6">
+              </div>
+              <div className="mt-auto pt-6">
+                <Link href={`/ai-employee/${feature.id}`} className="block w-full">
                   <Button
                     className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
                   >
