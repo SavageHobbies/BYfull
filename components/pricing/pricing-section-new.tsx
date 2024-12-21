@@ -1,31 +1,13 @@
 'use client';
 
+import React from 'react';
 import { pricingTiers, servicePackages, customServices } from '@/data/pricing';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight, Check, Package, Sparkles } from 'lucide-react';
-import { useState } from 'react';
-import PaymentModal from '@/components/payment/payment-modal';
 
 const PricingSection = () => {
-  const [selectedTab, setSelectedTab] = useState<'packages' | 'custom'>('packages');
-  const [paymentModal, setPaymentModal] = useState<{
-    isOpen: boolean;
-    amount: number;
-    productName: string;
-  }>({
-    isOpen: false,
-    amount: 0,
-    productName: '',
-  });
-
-  const handlePayment = (amount: number, productName: string) => {
-    setPaymentModal({
-      isOpen: true,
-      amount,
-      productName,
-    });
-  };
+  const [selectedTab, setSelectedTab] = React.useState<'packages' | 'custom'>('packages');
 
   return (
     <div className="space-y-20">
@@ -68,13 +50,12 @@ const PricingSection = () => {
                   </li>
                 ))}
               </ul>
-              <Button
-                className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
-                onClick={() => handlePayment(parseFloat(tier.priceRange.replace(/[^0-9.]/g, '')), tier.name)}
-              >
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link href="/contact">
+                <Button className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
             </div>
           ))}
         </div>
@@ -114,65 +95,50 @@ const PricingSection = () => {
               <div key={pkg.id} className="bg-white/5 backdrop-blur-sm rounded-lg p-8">
                 <h3 className="text-2xl font-bold mb-2">{pkg.name}</h3>
                 <p className="text-slate-400 mb-4">{pkg.description}</p>
-                <div className="space-y-6">
-                  {pkg.services.map((service, i) => (
-                    <div key={i} className="border-t border-white/10 pt-4 first:border-0 first:pt-0">
-                      <h4 className="font-semibold mb-2">{service.name}</h4>
-                      <p className="text-secondary mb-3">{service.priceRange}</p>
-                      <ul className="space-y-2">
-                        {service.includes.map((feature, j) => (
-                          <li key={j} className="flex items-start">
-                            <Check className="h-4 w-4 text-secondary mr-2 mt-0.5 flex-shrink-0" />
-                            <span className="text-slate-300 text-sm">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                <div className="text-2xl font-bold mb-6 text-secondary">{pkg.price}</div>
+                <ul className="space-y-4 mb-8">
+                  {pkg.features.map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <Check className="h-5 w-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-300">{feature}</span>
+                    </li>
                   ))}
-                </div>
-                <Button
-                  className="w-full mt-6 bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
-                  onClick={() => handlePayment(parseFloat(pkg.services[0].priceRange.replace(/[^0-9.]/g, '')), pkg.name)}
-                >
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                </ul>
+                <Link href="/contact">
+                  <Button className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 gap-8">
-            {Object.values(customServices).map((service, index) => (
-              <div key={service.name} className="bg-white/5 backdrop-blur-sm rounded-lg p-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {customServices.map((service) => (
+              <div key={service.id} className="bg-white/5 backdrop-blur-sm rounded-lg p-8">
                 <h3 className="text-2xl font-bold mb-2">{service.name}</h3>
-                <p className="text-slate-400 mb-6">{service.description}</p>
-                <div className="space-y-4">
-                  {service.rateRanges.map((rate, i) => (
-                    <div key={i} className="flex justify-between items-center">
-                      <span className="text-slate-300">{rate.type}</span>
-                      <span className="text-secondary font-medium">{rate.range}</span>
-                    </div>
+                <p className="text-slate-400 mb-4">{service.description}</p>
+                <div className="text-2xl font-bold mb-6 text-secondary">{service.priceRange}</div>
+                <ul className="space-y-4 mb-8">
+                  {service.features.map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <Check className="h-5 w-5 text-secondary mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-slate-300">{feature}</span>
+                    </li>
                   ))}
-                </div>
-                <Button
-                  className="w-full mt-6 bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30"
-                  onClick={() => handlePayment(parseFloat(service.rateRanges[0].range.replace(/[^0-9.]/g, '')), service.name)}
-                >
-                  Get Quote
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
+                </ul>
+                <Link href="/contact">
+                  <Button className="w-full bg-gradient-to-r from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
             ))}
           </div>
         )}
       </div>
-
-      <PaymentModal
-        isOpen={paymentModal.isOpen}
-        onClose={() => setPaymentModal({ isOpen: false, amount: 0, productName: '' })}
-        amount={paymentModal.amount}
-        productName={paymentModal.productName}
-      />
     </div>
   );
 };
